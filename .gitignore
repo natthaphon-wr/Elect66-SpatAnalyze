@@ -8,6 +8,8 @@
 
 # User-specific files
 .Ruserdata
+*.zip
+*.csv
 
 # Example code in package build process
 *-Ex.R
@@ -47,3 +49,6 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# User-specific folder
+SpatialData/
