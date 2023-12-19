@@ -1,10 +1,3 @@
-# Necessary Packages
-#library(readr)
-#library(dplyr)
-#library(tidyr)
-#library(sf)
-#library(tmap) 
-
 preprocess <- function(){
   Party_List <- read_csv("Party-List.csv")
   Constituency <- read_csv("constituency.csv") # 
