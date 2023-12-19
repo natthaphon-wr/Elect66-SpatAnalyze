@@ -1,3 +1,14 @@
+# There are 9 parties
+# - BJT
+# - CT
+# - Democrat
+# - MFP
+# - PPRP
+# - PheuThai
+# - Prachachat
+# - TST
+# - UTNP
+
 preprocess <- function(){
   Party_List <- read_csv("Party-List.csv")
   Constituency <- read_csv("constituency.csv") # 
@@ -57,17 +68,3 @@ preprocess <- function(){
   
   return(list(PL = PL_Data, Const = Const_Data))
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
