@@ -38,9 +38,6 @@ ggplot(data = PL_Data, aes(geom="sf", fill=Local_Rate_Prachachat)) +
   scale_fill_viridis_c(direction = -1, option="A")
 
 ## Votes ----
-# ggplot(data = PL_Data, aes(geom="sf", fill=log(Votes_BJT))) + 
-#   geom_sf() +
-#   scale_fill_viridis_c(direction = -1, option="A")
 
 ggplot(data = PL_Data, aes(geom="sf", fill=Votes_MFP)) + 
   geom_sf() +
