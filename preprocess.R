@@ -1,14 +1,3 @@
-# There are 9 parties
-# - BJT
-# - CT
-# - Democrat
-# - MFP
-# - PPRP
-# - PheuThai
-# - Prachachat
-# - TST
-# - UTNP
-
 preprocess <- function(){
   Party_List <- read_csv("Party-List.csv")
   Constituency <- read_csv("constituency.csv") # 
@@ -30,8 +19,8 @@ preprocess <- function(){
     group_by(Province, Party) %>%
     summarise(Votes = sum(Votes)) %>% 
     left_join(PL_Province, by = c("Province" = "Province")) %>% 
-    mutate(Global_Rate = Votes/PL_GlobalVotes,
-           Local_Rate = Votes/Local_Votes) %>% 
+    mutate(Global_Rate = round(Votes/PL_GlobalVotes,4),
+           Local_Rate = round(Votes/Local_Votes,4)) %>% 
     select(-Local_Votes) %>% 
     pivot_wider(names_from = Party,
                 values_from = c(Votes, Global_Rate, Local_Rate))
@@ -43,11 +32,10 @@ preprocess <- function(){
     group_by(Province, Party) %>% 
     summarise(Votes = sum(Votes)) %>% 
     left_join(PL_Province, by = c("Province" = "Province")) %>% 
-    mutate(Local_Rate = Votes/Local_Votes) %>% 
+    mutate(Local_Rate = round(Votes/Local_Votes,4)) %>% 
     select(-Local_Votes) %>% 
     pivot_wider(names_from = Party,
                 values_from = c(Votes, Local_Rate))
-  
   Const_election <- replace(Const_election, is.na(Const_election), 0)
   # sum(is.na(Const_election))
   

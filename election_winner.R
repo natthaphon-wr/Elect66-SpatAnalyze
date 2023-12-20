@@ -1,4 +1,4 @@
-party_win <- function(){
+election_winner <- function(){
   Party_List <- read_csv("Party-List.csv")
   Constituency <- read_csv("constituency.csv") 
   
