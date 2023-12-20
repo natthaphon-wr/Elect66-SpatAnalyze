@@ -2,10 +2,8 @@ library(readr)
 library(dplyr)
 library(tidyr)
 library(sf)
-library(tmap)
 library(ggplot2)
 library(gridExtra)
-library(grid.extra)
 source("preprocess.R")
 
 # Votes and Rate Data
