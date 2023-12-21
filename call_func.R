@@ -24,7 +24,11 @@ ggplot(data = PL_winner, aes(fill = Party)) +
     label = c("Move Forward Party", "Pheu Thai Party", 
               "Prachachat Party", "United Thai Nation Party"),
     values = c("#EF771E", "#E30613", "#BA810D", "#0000CD")) +
-  ggtitle("Winner in Each Province in Party-List")
+  ggtitle("Winner in Each Province in Party-List") +
+  theme(axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        rect = element_blank())
   
   
 ggplot(data = Const_winner, aes(fill = Party)) +  
@@ -35,6 +39,10 @@ ggplot(data = Const_winner, aes(fill = Party)) +
               "Prachachat Party", "Thai Sang Thai Party", "United Thai Nation Party"),
     values = c("#0F1599", "#E90080", "#00A1F1", "#EF771E", "#E30613", "#4061A6", 
                "#BA810D", "#65408F", "#0000CD")) +
-  ggtitle("Winner in Each Province in Constituency")
+  ggtitle("Winner in Each Province in Constituency") +
+  theme(axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        rect = element_blank())
 
 

@@ -18,6 +18,10 @@ pl_lr <- function(PL_Data){
   BJT <- ggplot(data = PL_Data, aes(geom="sf", fill=Local_Rate_BJT)) + 
     geom_sf() +
     ggtitle("Party-List: Bhumjaithai Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "skyblue", "#0F1599"),
                         breaks = c(0.1, 0.2),
                         guide = guide_coloursteps(even.steps = FALSE,
@@ -27,6 +31,10 @@ pl_lr <- function(PL_Data){
   CT <- ggplot(data = PL_Data, aes(geom="sf", fill=Local_Rate_CT)) + 
     geom_sf() +
     ggtitle("Party-List: Chartthaipattana Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "#E90080"),
                       breaks = c(0.1),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -36,6 +44,10 @@ pl_lr <- function(PL_Data){
   DEM <- ggplot(data = PL_Data, aes(geom="sf", fill=Local_Rate_Democrat)) +
     geom_sf() + 
     ggtitle("Party-List: Democrat Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "#AFEEEE", "#00A1F1"),
                       breaks = c(0.1, 0.2),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -45,6 +57,10 @@ pl_lr <- function(PL_Data){
   MFP <- ggplot(data = PL_Data, aes(geom="sf", fill=Local_Rate_MFP)) + 
     geom_sf() +
     ggtitle("Party-List: Move Forward Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "#FFDAB9", "#FFD700", "#FFA500", "#EF771E"),
                       breaks = c(0.3, 0.4, 0.5),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -54,6 +70,10 @@ pl_lr <- function(PL_Data){
   PCC <- ggplot(data = PL_Data, aes(geom="sf", fill=Local_Rate_Prachachat)) +
     geom_sf() + 
     ggtitle("Party-List: Prachachat Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "#BA810D"),
                       breaks = c(0.25),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -63,6 +83,10 @@ pl_lr <- function(PL_Data){
   PPRP <- ggplot(data = PL_Data, aes(geom="sf", fill=Local_Rate_PPRP)) +
     geom_sf() + 
     ggtitle("Party-List: Palang Pracharath Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "#4061A6"),
                       breaks = c(0.05),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -72,6 +96,10 @@ pl_lr <- function(PL_Data){
   PT <- ggplot(data = PL_Data, aes(geom="sf", fill=Local_Rate_PheuThai)) +
     geom_sf() + 
     ggtitle("Party-List: Pheu Thai Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "#FA8072", "#E30613"),
                       breaks = c(0.3, 0.4, 0.5),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -81,6 +109,10 @@ pl_lr <- function(PL_Data){
   TST <- ggplot(data = PL_Data, aes(geom="sf", fill=Local_Rate_TST)) +
     geom_sf() + 
     ggtitle("Party-List: Thai Sang Thai Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "#65408F"),
                       breaks = c(0.05),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -90,6 +122,10 @@ pl_lr <- function(PL_Data){
   UTNP <- ggplot(data = PL_Data, aes(geom="sf", fill=Local_Rate_UTNP)) +
     geom_sf() + 
     ggtitle("Party-List: United Thai Nation Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "skyblue", "blue", "#0000CD"),
                       breaks = c(0.1, 0.2, 0.3),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -114,6 +150,10 @@ pl_v <- function(PL_Data){
   BJT <- ggplot(data = PL_Data, aes(geom="sf", fill=Votes_BJT)) +
     geom_sf() +
     ggtitle("Party-List: Bhumjaithai Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "skyblue", "blue", "#0F1599"),
                       breaks = c(10000, 30000, 50000),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -124,6 +164,10 @@ pl_v <- function(PL_Data){
   CT <- ggplot(data = PL_Data, aes(geom="sf", fill=Votes_CT)) +
     geom_sf() +
     ggtitle("Party-List: Chartthaipattana Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "#E90080"),
                       breaks = c(30000),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -134,6 +178,10 @@ pl_v <- function(PL_Data){
   DEM <- ggplot(data = PL_Data, aes(geom="sf", fill=Votes_Democrat)) +
     geom_sf() +
     ggtitle("Party-List: Democrat Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "#AFEEEE", "#00A1F1"),
                       breaks = c(10000, 20000, 50000),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -144,6 +192,10 @@ pl_v <- function(PL_Data){
   MFP <- ggplot(data = PL_Data, aes(geom="sf", fill=Votes_MFP)) +
     geom_sf() +
     ggtitle("Party-List: Move Forward Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("#FFDAB9", "#FFD700", "#FFA500", "#EF771E"),
                       breaks = c(100000, 200000, 300000, 400000, 600000),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -154,6 +206,10 @@ pl_v <- function(PL_Data){
   PCC <- ggplot(data = PL_Data, aes(geom="sf", fill=Votes_Prachachat)) +
     geom_sf() +
     ggtitle("Party-List: Prachachat Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "#BA810D"),
                       breaks = c(75000),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -164,6 +220,10 @@ pl_v <- function(PL_Data){
   PPRP <- ggplot(data = PL_Data, aes(geom="sf", fill=Votes_PPRP)) +
     geom_sf() +
     ggtitle("Party-List: Palang Pracharath Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "lightblue", "#4061A6"),
                       breaks = c(10000, 20000),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -175,6 +235,10 @@ pl_v <- function(PL_Data){
   PT <- ggplot(data = PL_Data, aes(geom="sf", fill=Votes_PheuThai)) +
     geom_sf() +
     ggtitle("Party-List: Pheu Thai Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "#FA8072", "#E30613"),
                       breaks = c(100000, 200000, 300000, 400000),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -185,6 +249,10 @@ pl_v <- function(PL_Data){
   TST <- ggplot(data = PL_Data, aes(geom="sf", fill=Votes_TST)) +
     geom_sf() +
     ggtitle("Party-List: Thai Sang Thai Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "#65408F"),
                       breaks = c(10000),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -195,6 +263,10 @@ pl_v <- function(PL_Data){
   UTNP <- ggplot(data = PL_Data, aes(geom="sf", fill=Votes_UTNP)) +
     geom_sf() +
     ggtitle("Party-List: United Thai Nation Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "skyblue", "blue", "#0000CD"),
                       breaks = c(25000, 50000, 75000, 100000, 200000),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -222,6 +294,10 @@ const_lr <- function(PL_Data){
   BJT <- ggplot(data = Const_Data, aes(geom="sf", fill=Local_Rate_BJT)) +
     geom_sf() + 
     ggtitle("Constituency: Bhumjaithai Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "skyblue", "#0F1599"),
                       breaks = c(0.2, 0.4),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -231,6 +307,10 @@ const_lr <- function(PL_Data){
   CT <- ggplot(data = Const_Data, aes(geom="sf", fill=Local_Rate_CT)) +
     geom_sf() + 
     ggtitle("Constituency: Chartthaipattana Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "#E90080"),
                       breaks = c(0.2, 0.4),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -240,6 +320,10 @@ const_lr <- function(PL_Data){
   DEM <- ggplot(data = Const_Data, aes(geom="sf", fill=Local_Rate_Democrat)) +
     geom_sf() + 
     ggtitle("Constituency: Democrat Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "#AFEEEE", "#00A1F1"),
                       breaks = c(0.25, 0.5),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -249,6 +333,10 @@ const_lr <- function(PL_Data){
   MFP <- ggplot(data = Const_Data, aes(geom="sf", fill=Local_Rate_MFP)) +
     geom_sf() + 
     ggtitle("Constituency: Move Forward Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "#FFDAB9", "#FFD700", "#FFA500", "#EF771E"),
                       breaks = c(0.125, 0.25, 0.375),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -258,6 +346,10 @@ const_lr <- function(PL_Data){
   PCC <- ggplot(data = Const_Data, aes(geom="sf", fill=Local_Rate_Prachachat)) +
     geom_sf() + 
     ggtitle("Constituency: Prachachat Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "#BA810D"),
                       breaks = c(0.25),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -267,6 +359,10 @@ const_lr <- function(PL_Data){
   PPRP <- ggplot(data = Const_Data, aes(geom="sf", fill=Local_Rate_PPRP)) +
     geom_sf() + 
     ggtitle("Constituency: Palang Pracharath Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "lightblue", "#4061A6"),
                       breaks = c(0.2, 0.4),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -276,6 +372,10 @@ const_lr <- function(PL_Data){
   PT <- ggplot(data = Const_Data, aes(geom="sf", fill=Local_Rate_PheuThai)) +
     geom_sf() + 
     ggtitle("Constituency: Pheu Thai Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "#FA8072", "#E30613"),
                       breaks = c(0.125, 0.25, 0.375),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -285,6 +385,10 @@ const_lr <- function(PL_Data){
   TST <- ggplot(data = Const_Data, aes(geom="sf", fill=Local_Rate_TST)) +
     geom_sf() + 
     ggtitle("Constituency: Thai Sang Thai Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "#65408F"),
                       breaks = c(0.2),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -294,6 +398,10 @@ const_lr <- function(PL_Data){
   UTNP <- ggplot(data = Const_Data, aes(geom="sf", fill=Local_Rate_UTNP)) +
     geom_sf() + 
     ggtitle("Constituency: United Thai Nation Party") +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          rect = element_blank()) +
     scale_fill_stepsn(colours = c("white", "skyblue", "blue", "#0000CD"),
                       breaks = c(0.125, 0.25, 0.375),
                       guide = guide_coloursteps(even.steps = FALSE,
@@ -304,7 +412,7 @@ const_lr <- function(PL_Data){
 }
 const_out <- const_lr(PL_Data)
 const_out[[1]] # BJT
-const_out[[2]] # CT
+const_out[[2]] # CP
 const_out[[3]] # DEM
 const_out[[4]] # MFP
 const_out[[5]] # PCC
