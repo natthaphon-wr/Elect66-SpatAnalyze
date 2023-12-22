@@ -55,7 +55,8 @@ local_moran <- function(data, p_sig, nb){
           axis.ticks = element_blank(),
           rect = element_blank()) +
     scale_fill_manual(values = c("#DE2D26","#FC9272", "#FEE0D2", "grey90")) +
-    labs(fill="P-value")
+    labs(fill="P-value",
+         title = "Significance Level of Local Moran's I Statistic")
   
   # Significant Adjustment from cutoff value
   data$I_sig <- hotspot(MC_LocalI, Prname="Pr(folded) Sim", cutoff = p_sig, p.adjust = "none")
@@ -72,9 +73,9 @@ local_moran <- function(data, p_sig, nb){
           rect = element_blank()) +
     scale_fill_manual(breaks = c("High-High","Low-Low", "Low-High", "High-Low", 
                                  "Not Significant"),
-                      values = c("#FF0000", "#0000FF", "#a7adf9", "#f4ada8","#ededed")) +
+                      values = c("#c80064", "#54bebe", "#98d1d1", "#df979e","#dedad2")) +
     labs(fill = "Correlation Characteristics",
-         title = paste0("Significant Level at P-value <= ", as.character(p_sig))) 
+         title = paste0("Local Moran's I Statistic at P-value <= ", as.character(p_sig))) 
   
   return(list(plt_sigLVL, plt_I_sig, data, MC_LocalI.df))
 }
@@ -96,7 +97,7 @@ lw <- nb2listw(nb, style="W", zero.policy=TRUE)
 # Experiment: Party-List ----
 ## MFP ----
 PL_MFP <- LR_party(PL_Data, "MFP")
-PL_MFP_res <- local_moran(PL_MFP, 0.05, nb)
+PL_MFP_res <- local_moran(PL_MFP, 0.01, nb)
 PL_MFP_res[[1]]               #significant level in each province
 PL_MFP_res[[2]]               #local moran's I that are significant
 PL_MFP_df <- PL_MFP_res[[3]] 
@@ -104,13 +105,13 @@ PL_MFP_MC <- PL_MFP_res[[4]]
 
 ## Pheu Thai ----
 PL_PT <- LR_party(PL_Data, "PT")
-PL_PT_res <- local_moran(PL_PT, 0.01, nb)
+PL_PT_res <- local_moran(PL_PT, 0.001, nb)
 PL_PT_res[[1]]
 PL_PT_res[[2]]
 
 ## UTNP ----
 PL_UTNP <- LR_party(PL_Data, "UTNP")
-PL_UTNP_res <- local_moran(PL_UTNP, 0.01, nb)
+PL_UTNP_res <- local_moran(PL_UTNP, 0.001, nb)
 PL_UTNP_res[[1]]
 PL_UTNP_res[[2]]
 
@@ -124,7 +125,7 @@ Const_MFP_res[[2]]
 
 ## Pheu Thai ----
 Const_PT <- LR_party(Const_Data, "PT")
-Const_PT_res <- local_moran(Const_PT, 0.01, nb)
+Const_PT_res <- local_moran(Const_PT, 0.001, nb)
 Const_PT_res[[1]]
 Const_PT_res[[2]]
 
