@@ -290,7 +290,7 @@ plV_out[[9]] # UTNP
 
 # Constituency ----
 # Only consider local rate
-const_lr <- function(PL_Data){
+const_lr <- function(Const_Data){
   BJT <- ggplot(data = Const_Data, aes(geom="sf", fill=Local_Rate_BJT)) +
     geom_sf() + 
     ggtitle("Constituency: Bhumjaithai Party") +
@@ -410,7 +410,7 @@ const_lr <- function(PL_Data){
   
   return(list(BJT, CT, DEM, MFP, PCC, PPRP, PT, TST, UTNP))
 }
-const_out <- const_lr(PL_Data)
+const_out <- const_lr(Const_Data)
 const_out[[1]] # BJT
 const_out[[2]] # CP
 const_out[[3]] # DEM
@@ -420,3 +420,23 @@ const_out[[6]] # PPRP
 const_out[[7]] # PT
 const_out[[8]] # TST
 const_out[[9]] # UTNP
+
+
+# # Plot radius of specific point
+# centroid <- st_centroid(PL_Data) 
+# 
+# ## BJT 
+# centroid$geometry[centroid$ADM1_EN == "Uthai Thani"] #(99.47819 15.35016)
+# ggplot(data = Const_Data, aes(geom="sf", fill=Local_Rate_BJT)) +
+#   geom_sf() + 
+#   # geom_point(aes(99.47819, 15.35016), size=1, shape=1,  color="#ff0000") +
+#   ggtitle("Constituency: Bhumjaithai Party") +
+#   theme(axis.text.x = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.ticks = element_blank(),
+#         rect = element_blank()) +
+#   scale_fill_stepsn(colours = c("white", "skyblue", "#0F1599"),
+#                     breaks = c(0.2, 0.4),
+#                     guide = guide_coloursteps(even.steps = FALSE,
+#                                               show.limits = TRUE,
+#                                               title = "Local Rate"))
