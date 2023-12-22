@@ -14,7 +14,6 @@ Const_Data = Data$Const
 
 
 # Core Functions -----
-# Choose Data (PL or Const) and Party (MFP, PT, UTNP, BJT, DEM)
 LR_party <- function(Data, Party){
   if (Party == "MFP"){
     LR <- Data %>% 
@@ -68,12 +67,16 @@ autoCorr <- function(data, nb, plot=TRUE){
 
 ## Contiguous Adjacency ----
 nb_con <- poly2nb(PL_Data, queen=TRUE)
-nb_con[[3]]
-PL_Data$ADM1_EN[3]
-PL_Data$ADM1_EN[nb_con[[3]]]
-# Note that Phuket is no neighborhood
-nb_con[[48]]
-PL_Data$ADM1_EN[48]
+# nb_con[[3]]
+# PL_Data$ADM1_EN[3]
+# PL_Data$ADM1_EN[nb_con[[3]]]
+
+# Add Phangna and Phuket to be neighborhood
+nb_con[[which(PL_Data$ADM1_EN == "Phuket")]] <- c(which(PL_Data$ADM1_EN == "Phangnga"))
+nb_con[[which(PL_Data$ADM1_EN == "Phangnga")]] <- append(nb_con[[which(PL_Data$ADM1_EN == "Phangnga")]], 
+                                                     which(PL_Data$ADM1_EN == "Phuket"))
+PL_Data$ADM1_EN[nb_con[[which(PL_Data$ADM1_EN == "Phuket")]]]
+PL_Data$ADM1_EN[nb_con[[which(PL_Data$ADM1_EN == "Phangnga")]]]
 
 ## Distance based Adjacency ----
 # Under assumption that attribute are constant over geometry, 
@@ -199,4 +202,3 @@ Const_PPRP_MC <- autoCorr(Const_PPRP, nb_con)
 plot(Const_PPRP_MC, las=1)  #MC plot density
 Const_PPRP_MC$p.value       #pseudo p-value
 Const_PPRP_MC$statistic     #Moran's statistics
-
