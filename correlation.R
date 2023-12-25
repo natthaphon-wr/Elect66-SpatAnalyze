@@ -46,6 +46,8 @@ sum(is.na(Const_election))
 
 ## Joining Data ----
 Data <- left_join(PL_election, Const_election, by = "Province")
+Data <- Data %>% 
+  filter(Province != "Bangkok")
 
 
 # Party-List and Constituency -----
@@ -89,6 +91,26 @@ ggplot(Data, aes(Votes_PL_MFP, Votes_PL_PheuThai)) +
   labs(title = "Party-List Votes Correlation in Each Province",
        x = "MFP Votes",
        y = "Pheu Thai Votes") +
-  xlim(0, 600000) +
-  ylim(0, 600000)
+  scale_x_continuous(labels = scales::comma) +
+  scale_y_continuous(labels = scales::comma)
+
+## PT  and UTNP ----
+corr_PT_UTNP <- cor(Data$Votes_PL_PheuThai, Data$Votes_PL_UTNP, method = "pearson")
+ggplot(Data, aes(Votes_PL_PheuThai, Votes_PL_UTNP)) +
+  geom_point() +
+  labs(title = "Party-List Votes Correlation in Each Province",
+       x = "Pheu Thai Votes",
+       y = "UTNP Votes") +
+  scale_x_continuous(labels = scales::comma) +
+  scale_y_continuous(labels = scales::comma)
+
+## MFP  and UTNP ----
+corr_MFP_UTNP <- cor(Data$Votes_PL_MFP, Data$Votes_PL_UTNP, method = "pearson")
+ggplot(Data, aes(Votes_PL_MFP, Votes_PL_UTNP)) +
+  geom_point() +
+  labs(title = "Party-List Votes Correlation in Each Province",
+       x = "MFP Votes",
+       y = "UTNP Votes") +
+  scale_x_continuous(labels = scales::comma) +
+  scale_y_continuous(labels = scales::comma)
   
