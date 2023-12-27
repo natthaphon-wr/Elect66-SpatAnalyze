@@ -3,7 +3,7 @@ library(dplyr)
 library(tidyr)
 library(sf)
 library(ggplot2)
-library(gridExtra)
+library(classInt)
 source("preprocess.R")
 
 # Import Data ----
@@ -286,6 +286,68 @@ plV_out[[6]] # PPRP
 plV_out[[7]] # PT
 plV_out[[8]] # TST
 plV_out[[9]] # UTNP
+
+## Compare how to classify ----
+MFP_PL <- PL_Data %>% 
+  select(ADM1_EN, Local_Rate_MFP, Votes_MFP, Global_Rate_MFP, geometry)
+  
+### Equal Interval ----
+classIntervals(MFP_PL$Votes_MFP, n = 4, style = "equal")$brks
+MFP_PL$EI_votes <- cut(MFP_PL$Votes_MFP, 
+                       breaks = classIntervals(MFP_PL$Votes_MFP, n = 4, style = "equal")$brks,
+                       include.lowest = TRUE,
+                       labels = c("30,550.0 - 423,079.2", "423,079.3 - 815,608.5", 
+                                  "815,608.6 - 1,208,137.8", "1,208,137.9 - 1,600,667.0"))
+summary(MFP_PL$EI_votes)
+ggplot(data = MFP_PL, aes(geom="sf", fill=EI_votes)) +
+  geom_sf() +
+  theme(axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        rect = element_blank()) +
+  scale_fill_manual(values = c("#FFDAB9", "#FFD700", "#FFA500", "#EF771E"),
+                    breaks = levels(MFP_PL$EI_votes),
+                    guide = guide_legend(title = "Equal Interval of Votes"))
+
+### Quantile ----
+classIntervals(MFP_PL$Votes_MFP, n = 4, style = "quantile")$brks
+MFP_PL$Q_votes <- cut(MFP_PL$Votes_MFP, 
+                      breaks = classIntervals(MFP_PL$Votes_MFP, n = 4, style = "quantile")$brks,
+                      include.lowest = TRUE,
+                      labels = c("30,550 - 87,981", "87,982 - 137,539", 
+                                 "137,540 -224,197", "224,198 - 1,600,667"))
+summary(MFP_PL$Q_votes)
+ggplot(data = MFP_PL, aes(geom="sf", fill=Q_votes)) +
+  geom_sf() +
+  theme(axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        rect = element_blank()) +
+  scale_fill_manual(values = c("#FFDAB9", "#FFD700", "#FFA500", "#EF771E"),
+                    breaks = levels(MFP_PL$Q_votes),
+                    guide = guide_legend(title = "Quantile of Votes"))
+
+
+### Maximum breaks ----
+# classIntervals(MFP_PL$Votes_MFP, 
+#                n = 4, 
+#                style = "fixed",
+#                fixedBreaks = c(min(MFP_PL$Votes_MFP), 100,000, 200,000, ))$brks
+# 
+# MFP_PL$MB_votes <- cut(MFP_PL$Votes_MFP,
+#                       breaks = c(100000, 200000, 300000, 400000, 600000),
+#                       include.lowest = TRUE)
+# 
+# ggplot(data = MFP_PL, aes(geom="sf", fill=MB_votes)) +
+#   geom_sf() +
+#   theme(axis.text.x = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.ticks = element_blank(),
+#         rect = element_blank()) +
+#   scale_fill_manual(colours = c("#FFDAB9", "#FFD700", "#FFA500", "#EF771E"),
+#                     breaks = c(100000, 200000, 300000, 400000, 600000),
+#                     guide = guide_coloursteps(title = "Maximum Breaks of Votes"))
+
 
 
 # Constituency ----
