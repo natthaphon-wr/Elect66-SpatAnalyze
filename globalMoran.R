@@ -38,23 +38,42 @@ LR_party <- function(Data, Party){
   return(LR)
 }
 
-autoCorr <- function(data, nb, plot=TRUE){
+autoCorr <- function(data, nb, plot=TRUE, lisa=FALSE){
   # Calculate lag in every province
   lw <- nb2listw(nb, style="W", zero.policy=TRUE) #list weight 
   data$lag <- lag.listw(lw, data$Local_Rate)      #lag value
   
-  # Lag vs Local Rate
-  if (plot){
-    reg <- lm(lag ~ Local_Rate, data)               #linear regression
-    plot(lag ~ Local_Rate, data, pch=21, asp=1, las=1, col = "black", bg="grey",
-         xlab = "Local Rate",
-         ylab = "Adjacency Local Rate") +
-      abline(reg, col = "blue") +
-      abline(v = mean(data$Local_Rate), lty=3, col = "grey") +
-      abline(h = mean(data$Local_Rate), lty=3, col = "grey")
+  # For LISA 
+  if (lisa){
+    avg_LR <- mean(data$Local_Rate)
+    data <- data %>%
+      mutate(LISA = case_when(
+        Local_Rate<avg_LR & lag<avg_LR ~ "Low-Low",
+        Local_Rate>avg_LR & lag<avg_LR ~ "High-Low",
+        Local_Rate<avg_LR & lag>avg_LR ~ "Low-High",
+        Local_Rate>avg_LR & lag>avg_LR ~ "High-High",
+      ))
+    # print(data)
+    
+    if (plot){
+      reg <- lm(lag ~ Local_Rate, data)
+      ggplot(data=data, aes(x=Local_Rate, y=lag, color = LISA)) +
+        geom_point()
+    }
+    
+  }else{
+    # Lag vs Local Rate
+    if (plot){
+      reg <- lm(lag ~ Local_Rate, data)               #linear regression
+      plot(lag ~ Local_Rate, data, pch=21, asp=1, las=1, col = "black", bg="grey",
+           xlab = "Local Rate",
+           ylab = "Adjacency Local Rate") +
+        abline(reg, col = "blue") +
+        abline(v = mean(data$Local_Rate), lty=3, col = "grey") +
+        abline(h = mean(data$Local_Rate), lty=3, col = "grey")
+    }
   }
     
-  
   # Moran's I coefficient and MC
   moran <- moran(data$Local_Rate, listw = lw, n = length(nb), S0 = Szero(lw))
   MC <- moran.mc(data$Local_Rate, lw, nsim = 1000)
@@ -78,37 +97,75 @@ nb_con[[which(PL_Data$ADM1_EN == "Phangnga")]] <- append(nb_con[[which(PL_Data$A
 PL_Data$ADM1_EN[nb_con[[which(PL_Data$ADM1_EN == "Phuket")]]]
 PL_Data$ADM1_EN[nb_con[[which(PL_Data$ADM1_EN == "Phangnga")]]]
 
+### Visualize for blog ----
+PL_Data$ADM1_EN[nb_con[[which(PL_Data$ADM1_EN == "Bangkok")]]]
+nb_con[[which(PL_Data$ADM1_EN == "Bangkok")]]
+
+# Spatial Data
+Spatial_thai <- st_read('SpatialData/tha_cod-ab.shp')
+Spatial_thai <- Spatial_thai %>% 
+  select(Province = ADM1_EN, geometry)
+
+Spatial_thai$Ncont <- NA
+Spatial_thai$Ncont[which(PL_Data$ADM1_EN == "Bangkok")] <- "Bangkok"
+Spatial_thai$Ncont[nb_con[[which(PL_Data$ADM1_EN == "Bangkok")]]] <- "Neighbor"
+Spatial_thai$Ncont[is.na(Spatial_thai$Ncont)] <- "Other"
+
+ggplot(data = Spatial_thai, aes(geom="sf", fill=Ncont)) +
+  geom_sf() +
+  theme(axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        rect = element_blank()) +
+  scale_fill_manual(breaks = c("Bangkok", "Neighbor", "Other"),
+                    values = c("black", "red", "white")) +
+  labs(fill = "Bangkok's Neighbors",
+       title = "Contiguous Neighborhood") 
+
+
+
 ## Distance based Adjacency ----
 # Under assumption that attribute are constant over geometry, 
 #   centroid can represent as that province.
-# centroid <- st_centroid(PL_Data) 
-# nb_dist  <-  dnearneigh(centroid, 0, 100)  # 0-100 km
-# PL_Data$ADM1_EN[3]
-# nb_dist[[3]] |> length()
-# nb_dist[[3]]
-# PL_Data$ADM1_EN[nb_dist[[3]]]
-# 
-# # Perform experiment on different distances neighborhood in each
-# #   - data: PL_Data or Const_Data
-# #   - party: MFP, PT, UTNP, BJT, DEM
-# 
-# distance_nb <- function(data, party, distStart, distMax, distStep){
-#   # Extract data for that party
-#   data_party <- LR_party(data, party)
-#   
-#   # Autocorrelation that neighborhood based on distance
-#   df_distMoran <- data.frame(distance=numeric(), morans=numeric(), pValue=numeric())
-#   centroid <- st_centroid(PL_Data) 
-#   for (i in seq(distStart, distMax, distStep)){
-#     nb_dist  <-  dnearneigh(centroid, 0, i)  # 0-i km
-#     MC <- autoCorr(data_party, nb_dist, plot=FALSE)
-#     df_distMoran <- rbind(df_distMoran, data.frame(distance = i, 
-#                                                    moran = MC$statistic,
-#                                                    pValue = MC$p.value))
-#   }
-#   
-#   return(df_distMoran)
-# }
+centroid <- st_centroid(PL_Data)
+nb_dist  <-  dnearneigh(centroid, 0, 100)  # 0-100 km
+
+Spatial_thai$Ndist <- NA
+Spatial_thai$Ndist[which(PL_Data$ADM1_EN == "Bangkok")] <- "Bangkok"
+Spatial_thai$Ndist[nb_dist[[which(PL_Data$ADM1_EN == "Bangkok")]]] <- "Neighbor"
+Spatial_thai$Ndist[is.na(Spatial_thai$Ndist)] <- "Other"
+
+ggplot(data = Spatial_thai, aes(geom="sf", fill=Ndist)) +
+  geom_sf() +
+  theme(axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        rect = element_blank()) +
+  scale_fill_manual(breaks = c("Bangkok", "Neighbor", "Other"),
+                    values = c("black", "red", "white")) +
+  labs(fill = "Bangkok's Neighbors",
+       title = "Distance Band Neighborhood with 100 km") 
+
+## KNN ----
+centroid <- st_centroid(PL_Data)
+knn <-  knearneigh(centroid, k=4)
+nb_knn <- knn2nb(knn)
+
+Spatial_thai$Nknn <- NA
+Spatial_thai$Nknn[which(PL_Data$ADM1_EN == "Bangkok")] <- "Bangkok"
+Spatial_thai$Nknn[nb_knn[[which(PL_Data$ADM1_EN == "Bangkok")]]] <- "Neighbor"
+Spatial_thai$Nknn[is.na(Spatial_thai$Nknn)] <- "Other"
+
+ggplot(data = Spatial_thai, aes(geom="sf", fill=Nknn)) +
+  geom_sf() +
+  theme(axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        rect = element_blank()) +
+  scale_fill_manual(breaks = c("Bangkok", "Neighbor", "Other"),
+                    values = c("black", "red", "white")) +
+  labs(fill = "Bangkok's Neighbors",
+       title = "K-Nearest Neighborhood with k=4") 
 
 
 # Experiment: Party-List ----
@@ -119,6 +176,8 @@ PL_MFP_MC <- autoCorr(PL_MFP, nb_con)
 plot(PL_MFP_MC, las=1)  #MC plot density
 PL_MFP_MC$p.value       #pseudo p-value
 PL_MFP_MC$statistic     #Moran's statistics
+
+PL_MFP_MC <- autoCorr(PL_MFP, nb_con, lisa=TRUE)
 
 ## Pheu Thai ----
 PL_PT <- LR_party(PL_Data, "PT")
@@ -134,29 +193,6 @@ plot(PL_UTNP_MC, las=1)  #MC plot density
 PL_UTNP_MC$p.value       #pseudo p-value
 PL_UTNP_MC$statistic     #Moran's statistics
 
-
-# ## Distance based Adjacency
-# ### MFP
-# moran_MFP = distance_nb(PL_Data, "MFP", distStart=100, distMax=1000, distStep=100)
-# ggplot(moran_MFP, aes(x=distance, y=moran)) +
-#   geom_point() +
-#   geom_hline(yintercept = 0) +
-#   ylim(-1, 1)
-# 
-# 
-# ### Pheu Thai
-# moran_PT = distance_nb(PL_Data, "PT", distStart=100, distMax=1000, distStep=100)
-# ggplot(moran_PT, aes(x=distance, y=moran)) +
-#   geom_point() +
-#   geom_hline(yintercept = 0) +
-#   ylim(-1, 1)
-# 
-# ### UTNP
-# moran_UTNP = distance_nb(PL_Data, "UTNP", distStart=100, distMax=1000, distStep=100)
-# eggplot(moran_UTNP, aes(x=distance, y=moran)) +
-#   geom_point() +
-#   geom_hline(yintercept = 0) +
-#   ylim(-1, 1)
 
 
 # Experiment: Constituency ----
@@ -202,3 +238,43 @@ Const_PPRP_MC <- autoCorr(Const_PPRP, nb_con)
 plot(Const_PPRP_MC, las=1)  #MC plot density
 Const_PPRP_MC$p.value       #pseudo p-value
 Const_PPRP_MC$statistic     #Moran's statistics
+
+
+
+
+# LISA for blog ----
+PL_MFP <- LR_party(PL_Data, "MFP")
+# PL_MFP_MC <- autoCorr(PL_MFP, nb_con)
+
+lw <- nb2listw(nb_con, style="W", zero.policy=TRUE) #list weight 
+PL_MFP$lag <- lag.listw(lw, PL_MFP$Local_Rate)      #lag value
+
+avg_LR <- mean(PL_MFP$Local_Rate)
+PL_MFP <- PL_MFP %>%
+  mutate(LISA = case_when(
+    Local_Rate<avg_LR & lag<avg_LR ~ "Low-Low",
+    Local_Rate>avg_LR & lag<avg_LR ~ "High-Low",
+    Local_Rate<avg_LR & lag>avg_LR ~ "Low-High",
+    Local_Rate>avg_LR & lag>avg_LR ~ "High-High",
+  ))
+
+ggplot() +
+  geom_point(data=PL_MFP, aes(x=Local_Rate, y=lag, color = LISA)) +
+  scale_color_manual(values = c("#c80064", "#54bebe", "#98d1d1", "#df979e")) +
+  geom_smooth(aes(lag, Local_Rate), PL_MFP, method = "lm", se=FALSE) +
+  geom_hline(aes(yintercept = avg_LR), PL_MFP, color = "grey") +
+  geom_vline(aes(xintercept = avg_LR), PL_MFP, color = "grey") +
+  labs(title = "MFP Vote's Rate with LISA", 
+       x = "Vote's Rate",
+       y = "Lag Vote's Rate")
+
+ggplot() +
+  geom_point(data=PL_MFP, aes(x=Local_Rate, y=lag)) +
+  geom_smooth(aes(lag, Local_Rate), PL_MFP, method = "lm", se=FALSE) +
+  geom_hline(aes(yintercept = avg_LR), PL_MFP, color = "grey") +
+  geom_vline(aes(xintercept = avg_LR), PL_MFP, color = "grey") +
+  labs(title = "MFP Vote's Rate", 
+       x = "Vote's Rate",
+       y = "Lag Vote's Rate")
+
+
